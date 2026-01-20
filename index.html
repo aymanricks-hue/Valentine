@@ -1,191 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Oyshe 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffebee;
+            margin: 0;
+            text-align: center;
+        }
 
-<!-- Fancy Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at top, #ffdde1, #ee9ca7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
-}
+        h1 { color: #d32f2f; }
 
-/* Glassmorphism card */
-.container {
-    backdrop-filter: blur(14px);
-    background: rgba(255, 255, 255, 0.65);
-    border-radius: 25px;
-    padding: 35px 30px;
-    text-align: center;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-    max-width: 360px;
-    width: 90%;
-    animation: fadeIn 1.2s ease;
-}
+        .image-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
 
-h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 34px;
-    color: #ff4d6d;
-    margin-bottom: 8px;
-}
+        button {
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-.subtitle {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 25px;
-}
+        #yesBtn { background-color: #ff4081; color: white; }
+        #noBtn { background-color: #bdbdbd; color: white; position: relative; }
 
-.buttons {
-    position: relative;
-    height: 70px;
-}
-
-button {
-    padding: 14px 28px;
-    border-radius: 30px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute;
-    transition: 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-}
-
-.yes {
-    background: linear-gradient(135deg, #ff4d6d, #ff758f);
-    color: white;
-    left: 15%;
-    box-shadow: 0 10px 25px rgba(255,77,109,0.4);
-}
-
-.yes:hover {
-    transform: scale(1.12);
-}
-
-.no {
-    background: #e0e0e0;
-    color: #444;
-    right: 15%;
-}
-
-.result {
-    display: none;
-    margin-top: 25px;
-    animation: fadeIn 0.8s ease;
-}
-
-.result img {
-    width: 140px;
-    margin-bottom: 15px;
-}
-
-.result h2 {
-    font-family: 'Playfair Display', serif;
-    color: #ff4d6d;
-    margin-bottom: 5px;
-}
-
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    animation: fall 3s linear infinite;
-}
-
-@keyframes fall {
-    from { transform: translateY(-10px) rotate(0deg); }
-    to { transform: translateY(100vh) rotate(360deg); }
-}
-</style>
+        .celebration { display: none; }
+    </style>
 </head>
-
 <body>
 
-<!-- Romantic background music -->
-<audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/audio/2023/02/28/audio_4a4c5dbf8d.mp3" type="audio/mpeg">
-</audio>
-
-<div class="container">
-    <h1>Oyshe 💖</h1>
-    <div class="subtitle">Will you be my Valentine?</div>
-
-    <div class="buttons">
-        <button class="yes" onclick="yesClicked()">Yes ❤️</button>
-        <button class="no" id="noBtn" onclick="noClicked()">No 💔</button>
+    <div class="container" id="mainCard">
+        <div class="image-container">
+            <img id="displayImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZic3B6eGZpZnd6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/v6aOebdGHtzAk/giphy.gif" alt="Cute character">
+        </div>
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        
+        <div class="buttons" id="btnGroup">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
     </div>
 
-    <div class="result" id="result"></div>
-</div>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const img = document.getElementById('displayImg');
+        const question = document.getElementById('question');
+        const btnGroup = document.getElementById('btnGroup');
 
-<script>
-let noMoves = 0;
+        let noClickCount = 0;
 
-// Play music after first interaction (browser-safe)
-document.body.addEventListener("click", () => {
-    document.getElementById("bgMusic").play();
-}, { once: true });
+        // When she clicks No
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            // Change image to crying boy/character
+            img.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzM5OTY2ZWFlOTM1ZGNjZWMzYjZiN2M4ZGMzZGE2Zjk5ZWM4Zjk5ZSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/OPU6wUKARAtsA/giphy.gif";
+            question.innerText = "Are you sure? 🥺";
+            
+            // Make the 'Yes' button bigger every time she says no!
+            let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 15) + 'px';
+            yesBtn.style.padding = (10 + noClickCount * 5) + 'px ' + (25 + noClickCount * 10) + 'px';
+        });
 
-const noBtn = document.getElementById("noBtn");
-
-// No button escape (but still clickable eventually)
-noBtn.addEventListener("mouseover", () => {
-    if (noMoves < 6) {
-        const x = Math.random() * 220 - 110;
-        const y = Math.random() * 90 - 45;
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
-        noMoves++;
-    }
-});
-
-function yesClicked() {
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML = `
-        <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png">
-        <h2>YAY Oyshe! 💕</h2>
-        <p>You just made my heart extremely happy 🥹❤️</p>
-    `;
-    createConfetti();
-}
-
-function noClicked() {
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML = `
-        <img src="https://cdn-icons-png.flaticon.com/512/742/742774.png">
-        <h2>Oh no…</h2>
-        <p>The poor boy is crying now 💔</p>
-    `;
-}
-
-function createConfetti() {
-    for (let i = 0; i < 120; i++) {
-        let c = document.createElement("div");
-        c.className = "confetti";
-        c.style.left = Math.random() * 100 + "vw";
-        c.style.backgroundColor =
-            ["#ff4d6d","#ffd166","#06d6a0","#4d96ff"][Math.floor(Math.random()*4)];
-        c.style.animationDuration = (Math.random() * 2 + 2) + "s";
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3000);
-    }
-}
-</script>
-
+        // When she clicks Yes
+        yesBtn.addEventListener('click', () => {
+            img.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMm00Mmd4M3F0Znd6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6Z3Z6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/l41lTfuxV5c3gW9G0/giphy.gif";
+            question.innerText = "YAY! See you on the 14th! 🥰✨";
+            btnGroup.style.display = "none";
+            
+            // Add some confetti effect (optional)
+            document.body.style.backgroundColor = "#ffcdd2";
+        });
+    </script>
 </body>
 </html>
